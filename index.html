@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Usahawan BizHub — TVETMARA LUMUT</title>
+<link rel="icon" type="image/png" href="logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;1,6..96,300;1,6..96,400&family=DM+Sans:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet"/>
+</head>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d0d0d;
+  --bg2:#111;
+  --bg3:#161616;
+  --surface:#1a1a1a;
+  --surface2:#1e1e1e;
+  --line:rgba(255,255,255,.07);
+  --line2:rgba(255,255,255,.12);
+  --pt:#c8b89a;
+  --pt2:#e8d9c0;
+  --white:#f5f2ee;
+  --dim:rgba(245,242,238,.18);
+  --dim2:rgba(245,242,238,.08);
+  --dim3:rgba(245,242,238,.04);
+  --red:#c0392b;
+  --green:#27ae60;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+#cDot,#cRing{position:fixed;pointer-events:none;border-radius:50%;z-index:9999;transform:translate(-50%,-50%);}
+#cDot{width:5px;height:5px;background:var(--pt);transition:width .18s,height .18s,background .2s;}
+#cRing{width:38px;height:38px;border:1px solid rgba(200,184,154,.28);transition:width .22s,height .22s,border-color .22s,border-radius .22s;}
+body.hov #cDot{width:8px;height:8px;}
+body.hov #cRing{width:54px;height:54px;border-color:rgba(200,184,154,.15);}
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  opacity:.04;background-repeat:repeat;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)'/%3E%3C/svg%3E");
+}
+
+/* NAV */
+#nav{
+  position:fixed;top:0;left:0;right:0;height:72px;z-index:700;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 60px;
+  transition:background .5s,border-color .5s;
+  border-bottom:1px solid transparent;
+}
+#nav.on{background:rgba(13,13,13,.95);border-color:var(--line);backdrop-filter:blur(20px);}
+.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.nav-logo-img{width:42px;height:42px;object-fit:contain;}
+.nav-logo-text{display:flex;flex-direction:column;}
+.nav-logo-main{font-family:'Bodoni Moda',serif;font-size:1.1rem;letter-spacing:.05em;color:var(--white);}
+.nav-logo-sub{font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);}
+.nav-right{display:flex;align-items:center;gap:40px;}
+.nav-link{
+  font-size:.6rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);text-decoration:none;position:relative;transition:color .25s;
+}
+.nav-link::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--pt);transition:width .3s;}
+.nav-link:hover{color:var(--pt);}
+.nav-link:hover::after{width:100%;}
+
+/* HERO */
+.hero{
+  min-height:100vh;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--bg);
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);
+}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;}
+.orb1{width:700px;height:700px;background:rgba(200,184,154,.04);top:-200px;right:-200px;}
+.orb2{width:500px;height:500px;background:rgba(200,60,43,.025);bottom:-100px;left:-100px;}
+.hero-l{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:130px 70px 100px 60px;
+  border-right:1px solid var(--line);
+}
+.h-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:56px;opacity:0;animation:rUp .8s .05s var(--ease) forwards;}
+.h-eyebrow-bar{width:40px;height:1px;background:var(--pt);}
+.h-eyebrow span{font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--pt);font-weight:400;}
+.hero-h{
+  font-family:'Bodoni Moda',serif;font-size:clamp(4.5rem,8vw,8rem);font-weight:300;
+  line-height:.88;letter-spacing:-.03em;color:var(--white);margin-bottom:48px;
+  opacity:0;animation:rUp .9s .15s var(--ease) forwards;
+}
+.hero-h i{font-style:italic;color:var(--pt);display:block;}
+.hero-p{
+  font-size:.82rem;font-weight:300;line-height:2;color:var(--dim);max-width:380px;margin-bottom:60px;
+  letter-spacing:.03em;opacity:0;animation:rUp .8s .28s var(--ease) forwards;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:rUp .8s .4s var(--ease) forwards;}
+.btn-a{
+  display:inline-flex;align-items:center;gap:12px;background:var(--pt);color:var(--bg);
+  font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  padding:16px 34px;text-decoration:none;border:none;cursor:none;
+  transition:background .25s,transform .2s,box-shadow .3s;
+}
+.btn-a:hover{background:var(--pt2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,184,154,.15);}
+.btn-b{
+  display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line2);color:var(--dim);
+  font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:400;letter-spacing:.16em;text-transform:uppercase;
+  padding:16px 30px;text-decoration:none;background:none;cursor:none;transition:border-color .25s,color .25s;
+}
+.btn-b:hover{border-color:var(--dim2);color:var(--white);}
+.hero-r{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:130px 60px 100px 60px;
+}
+.stat-block{
+  padding:36px 0;border-top:1px solid var(--line);display:flex;align-items:flex-start;gap:28px;
+  opacity:0;animation:rRight .7s var(--ease) forwards;
+}
+.stat-block:last-child{border-bottom:1px solid var(--line);}
+.stat-block:nth-child(1){animation-delay:.35s;}
+.stat-block:nth-child(2){animation-delay:.5s;}
+.stat-block:nth-child(3){animation-delay:.65s;}
+.stat-n{font-family:'Bodoni Moda',serif;font-size:4rem;font-weight:300;color:var(--white);line-height:.9;letter-spacing:-.03em;min-width:90px;}
+.stat-lbl{font-size:.58rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
+.stat-sub{font-size:.72rem;font-weight:300;color:rgba(245,242,238,.1);line-height:1.6;}
+.hero-num{position:absolute;right:56px;bottom:40px;z-index:2;font-family:'Bodoni Moda',serif;font-style:italic;font-size:8rem;font-weight:300;color:rgba(255,255,255,.018);line-height:1;user-select:none;}
+.hero-scroll-pill{position:absolute;bottom:40px;left:60px;z-index:3;display:flex;align-items:center;gap:16px;opacity:0;animation:rFade 1.2s 1.2s ease forwards;}
+.scroll-bar{width:1px;height:48px;background:var(--line2);position:relative;overflow:hidden;}
+.scroll-ticker{position:absolute;top:0;width:1px;height:35%;background:var(--pt);animation:sTick 2.2s ease-in-out infinite;}
+@keyframes sTick{0%{top:-35%}100%{top:135%}}
+.hero-scroll-pill span{font-size:.54rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(245,242,238,.14);}
+@keyframes rUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes rRight{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes rFade{from{opacity:0}to{opacity:1}}
+
+/* MARQUEE */
+.mq{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0;background:var(--bg2);}
+.mq-track{display:flex;white-space:nowrap;animation:mqScroll 32s linear infinite;}
+.mq-item{display:inline-flex;align-items:center;gap:18px;padding:0 24px;flex-shrink:0;font-size:.58rem;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);}
+.mq-sep{width:2px;height:2px;background:var(--pt);opacity:.5;}
+@keyframes mqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION */
+.sec{padding:120px 60px;position:relative;}
+.sec-dark{background:var(--bg2);}
+.sec-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.sec-eyebrow-line{width:32px;height:1px;background:var(--pt);}
+.sec-eyebrow span{font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--pt);font-weight:400;}
+.sec-h{font-family:'Bodoni Moda',serif;font-weight:300;font-size:clamp(2.5rem,4.5vw,4.2rem);line-height:.95;letter-spacing:-.025em;color:var(--white);}
+.sec-h i{font-style:italic;color:rgba(245,242,238,.22);}
+.sec-body{font-size:.78rem;font-weight:300;color:var(--dim);line-height:2;letter-spacing:.02em;max-width:380px;margin-top:14px;}
+
+/* LOADING STATE */
+.loading-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 20px;gap:18px;
+}
+.loading-spinner{
+  width:32px;height:32px;border:1px solid var(--line2);border-top-color:var(--pt);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);}
+
+/* GERAI */
+.gerai-hdr{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:72px;}
+.gerai-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);border-left:1px solid var(--line);
+}
+@media(max-width:1100px){.gerai-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:680px){.gerai-grid{grid-template-columns:1fr;}}
+.g-card{
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  display:flex;flex-direction:column;cursor:none;position:relative;overflow:hidden;
+  transition:background .3s;background:var(--bg2);
+}
+.g-card:hover{background:var(--bg3);}
+.g-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--pt),var(--pt2),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);z-index:3;
+}
+.g-card:hover::before{transform:scaleX(1);}
+.g-idx{position:absolute;top:20px;left:22px;z-index:4;font-family:'Bodoni Moda',serif;font-style:italic;font-size:.7rem;color:var(--pt);opacity:.55;letter-spacing:.06em;}
+.g-img-wrap{height:210px;overflow:hidden;position:relative;background:var(--surface);flex-shrink:0;}
+.g-img-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(.8);transition:transform .7s var(--ease),filter .4s;}
+.g-card:hover .g-img-wrap img{transform:scale(1.06);filter:brightness(.9);}
+.g-img-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--surface),var(--bg));}
+.g-img-ph-line{width:28px;height:1px;background:var(--pt);opacity:.25;}
+.g-img-ph-cat{font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);opacity:.5;}
+.g-img-fade{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(transparent,var(--bg2));z-index:2;}
+.g-badge{position:absolute;bottom:18px;left:20px;z-index:3;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pt);border:1px solid rgba(200,184,154,.25);padding:4px 10px;background:rgba(13,13,13,.7);backdrop-filter:blur(10px);}
+.g-body{flex:1;padding:28px 24px 22px;display:flex;flex-direction:column;gap:11px;}
+.g-name{font-family:'Bodoni Moda',serif;font-size:1.45rem;font-weight:300;color:var(--white);line-height:1.2;letter-spacing:-.01em;}
+.g-desc{font-size:.72rem;font-weight:300;color:var(--dim);line-height:1.9;flex:1;letter-spacing:.02em;}
+.g-foot{border-top:1px solid var(--line);padding-top:18px;margin-top:6px;display:flex;align-items:center;gap:10px;}
+.g-tel{flex:1;display:flex;align-items:center;gap:10px;justify-content:center;border:1px solid var(--line2);color:var(--dim);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;padding:10px;text-decoration:none;transition:border-color .25s,color .25s,background .25s;}
+.g-tel:hover{border-color:var(--pt);color:var(--pt);}
+.live{width:5px;height:5px;border-radius:50%;background:#2ecc71;flex-shrink:0;animation:livp 2.4s ease infinite;}
+@keyframes livp{0%,100%{box-shadow:0 0 0 2px rgba(46,204,113,.15)}50%{box-shadow:0 0 0 5px rgba(46,204,113,.05)}}
+.g-arr{width:36px;height:36px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--dim);transition:all .25s;}
+.g-card:hover .g-arr{border-color:var(--line2);color:var(--white);transform:translate(2px,-2px);}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--line2);}
+
+/* KEPIMPINAN */
+.sec-lead{background:var(--bg);padding:120px 60px;}
+.lead-layout{display:grid;grid-template-columns:280px 1fr;gap:100px;align-items:start;}
+@media(max-width:900px){.lead-layout{grid-template-columns:1fr;gap:56px;}}
+.sec-ghost{position:absolute;right:0;top:80px;z-index:0;pointer-events:none;user-select:none;font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(6rem,11vw,10rem);font-weight:300;color:rgba(255,255,255,.015);line-height:1;letter-spacing:-.03em;white-space:nowrap;}
+.teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);position:relative;z-index:1;}
+.t-card{background:var(--bg2);padding:32px 24px 28px;display:flex;flex-direction:column;gap:18px;cursor:none;position:relative;overflow:hidden;transition:background .3s,transform .3s;}
+.t-card:hover{background:var(--bg3);transform:translateY(-4px);}
+.t-card.prim{background:linear-gradient(160deg,var(--bg3),rgba(200,184,154,.04));}
+.t-card.prim:hover{background:linear-gradient(160deg,var(--surface),rgba(200,184,154,.07));}
+.t-pos{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);font-weight:400;margin-bottom:2px;}
+.t-card.prim .t-pos{color:var(--pt);opacity:.8;}
+.t-photo{width:72px;height:72px;position:relative;overflow:hidden;border:1px solid var(--line2);}
+.t-card.prim .t-photo{width:84px;height:84px;border-color:rgba(200,184,154,.25);}
+.t-photo img{width:100%;height:100%;object-fit:cover;}
+.t-photo-ph{width:100%;height:100%;background:linear-gradient(135deg,var(--surface),var(--bg));display:flex;align-items:center;justify-content:center;}
+.t-photo-ph svg{opacity:.2;}
+.t-photo::after{content:'';position:absolute;bottom:0;right:0;width:10px;height:10px;border-bottom:1.5px solid rgba(200,184,154,.45);border-right:1.5px solid rgba(200,184,154,.45);transition:width .25s,height .25s;}
+.t-card:hover .t-photo::after{width:14px;height:14px;}
+.t-card.prim .t-photo::after{border-color:var(--pt);width:12px;height:12px;}
+.t-name{font-family:'Bodoni Moda',serif;font-size:1rem;font-weight:300;color:rgba(245,242,238,.75);line-height:1.35;letter-spacing:-.01em;}
+.t-card.prim .t-name{font-size:1.1rem;color:rgba(245,242,238,.9);}
+.t-view{display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s,color .25s;}
+.t-card:hover .t-view{opacity:1;transform:none;color:var(--pt);}
+
+/* TEACHER MODAL */
+.ov{position:fixed;inset:0;z-index:800;background:rgba(5,5,5,.88);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:24px;}
+.ov.open{display:flex;}
+.t-modal{width:100%;max-width:620px;background:var(--bg2);border:1px solid var(--line2);display:grid;grid-template-columns:240px 1fr;position:relative;animation:mIn .36s var(--ease);max-height:92vh;overflow:hidden;}
+@media(max-width:600px){.t-modal{grid-template-columns:1fr;}}
+@keyframes mIn{from{opacity:0;scale:.96;translate:0 16px}to{opacity:1;scale:1;translate:0 0}}
+.t-modal-left{background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative;min-height:380px;overflow:hidden;}
+.t-modal-left::before{content:'';position:absolute;left:0;top:15%;bottom:15%;width:2px;background:linear-gradient(transparent,var(--pt),transparent);opacity:.3;}
+.t-modal-left img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.t-modal-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;height:100%;position:relative;z-index:1;background:linear-gradient(160deg,var(--bg3),rgba(200,184,154,.04));}
+.t-modal-ph svg{opacity:.14;}
+.t-modal-ph-lbl{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(200,184,154,.25);}
+.t-modal-right{padding:40px 36px;overflow-y:auto;display:flex;flex-direction:column;gap:20px;}
+.t-modal-pos-r{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pt);}
+.t-modal-name{font-family:'Bodoni Moda',serif;font-size:2rem;font-weight:300;color:var(--white);line-height:1.05;letter-spacing:-.02em;}
+.t-modal-rule{width:36px;height:1px;background:rgba(200,184,154,.35);}
+.t-modal-bio{font-size:.76rem;font-weight:300;color:var(--dim);line-height:1.95;letter-spacing:.02em;}
+.x-btn{position:absolute;top:14px;right:14px;z-index:10;width:34px;height:34px;background:var(--dim3);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:none;color:var(--dim);font-size:.85rem;transition:all .2s;}
+.x-btn:hover{background:var(--pt);color:var(--bg);border-color:var(--pt);}
+
+/* GERAI MODAL */
+.gm-modal{
+  width:100%;max-width:760px;background:var(--bg2);border:1px solid var(--line2);
+  position:relative;animation:mIn .36s var(--ease);max-height:92vh;overflow-y:auto;
+}
+.gm-img-top{height:270px;position:relative;overflow:hidden;background:var(--surface);}
+.gm-img-top img{width:100%;height:100%;object-fit:cover;filter:brightness(.75);}
+.gm-img-ph-big{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--surface),var(--bg));}
+.gm-img-top::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(transparent,var(--bg2));z-index:1;}
+.gm-cat{position:absolute;bottom:20px;left:28px;z-index:2;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pt);border:1px solid rgba(200,184,154,.3);padding:5px 12px;background:rgba(13,13,13,.75);backdrop-filter:blur(10px);}
+.gm-body{padding:40px 40px 52px;}
+.gm-name{font-family:'Bodoni Moda',serif;font-size:2.4rem;font-weight:300;color:var(--white);line-height:1;letter-spacing:-.025em;margin-bottom:14px;}
+.gm-desc{font-size:.77rem;font-weight:300;color:var(--dim);line-height:1.95;margin-bottom:36px;letter-spacing:.02em;}
+.gm-sec-lbl{font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.gm-sec-lbl::before{content:'';width:18px;height:1px;background:var(--pt);}
+.prod-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:36px;}
+.prod-item{background:var(--bg3);aspect-ratio:1;position:relative;overflow:hidden;cursor:none;transition:background .25s;}
+.prod-item:hover{background:var(--surface);}
+.prod-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.8);transition:transform .5s var(--ease),filter .3s;}
+.prod-item:hover img{transform:scale(1.08);filter:brightness(.95);}
+.prod-item-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--surface),var(--bg2));}
+.prod-item-ph-icon{opacity:.12;}
+.prod-item-name{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:24px 14px 12px;background:linear-gradient(transparent,rgba(13,13,13,.85));font-size:.6rem;font-weight:400;letter-spacing:.1em;color:var(--white);opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;}
+.prod-item:hover .prod-item-name{opacity:1;transform:none;}
+.prod-item-ph-lbl{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);opacity:.5;text-align:center;}
+.mb-list-d{display:flex;flex-direction:column;gap:1px;background:var(--line);margin-bottom:36px;}
+.mb-row-d{background:var(--bg2);display:flex;align-items:center;gap:16px;padding:15px 18px;transition:background .15s;}
+.mb-row-d:hover{background:var(--bg3);}
+.mb-avatar{width:36px;height:36px;border:1px solid var(--line2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.mb-avatar svg{opacity:.25;}
+.mb-name-d{font-family:'Tenor Sans',sans-serif;font-size:.95rem;color:rgba(245,242,238,.65);flex:1;}
+.mb-role-d{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);padding:4px 10px;background:var(--dim3);}
+.gm-tel-btn{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--pt);color:var(--bg);width:100%;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:18px;text-decoration:none;border:none;cursor:none;transition:background .25s;}
+.gm-tel-btn:hover{background:var(--pt2);}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--line);padding:40px 60px;}
+.ft{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.ft-brand{font-family:'Bodoni Moda',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--dim);}
+.ft-brand span{color:var(--pt);}
+.ft-links{display:flex;gap:32px;}
+.ft-links a{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,242,238,.15);text-decoration:none;transition:color .2s;}
+.ft-links a:hover{color:var(--dim);}
+.ft-copy{font-size:.56rem;letter-spacing:.08em;color:rgba(245,242,238,.1);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+.rv.in{opacity:1;transform:none;}
+.d1{transition-delay:.04s}.d2{transition-delay:.09s}.d3{transition-delay:.14s}.d4{transition-delay:.19s}.d5{transition-delay:.24s}.d6{transition-delay:.29s}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;right:30px;z-index:9999;background:var(--bg2);border:1px solid var(--line2);border-left:2px solid var(--pt);color:var(--dim);font-size:.7rem;letter-spacing:.06em;padding:14px 22px;display:flex;align-items:center;gap:12px;transform:translateY(56px);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;}
+.toast.show{transform:none;opacity:1;}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;}
+  .hero-r{display:none;}
+  .hero-l{padding:120px 32px 90px;}
+  .sec,.sec-lead{padding:88px 32px;}
+  #nav{padding:0 28px;}
+  .gm-body{padding:28px 24px 40px;}
+  .t-modal{max-width:400px;}
+  .gerai-hdr{flex-direction:column;align-items:flex-start;}
+  .sec-ghost{display:none;}
+  .prod-gallery{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div id="cDot"></div>
+<div id="cRing"></div>
+
+<div class="toast" id="toast">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastTxt"></span>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <img src="logo.webp" class="nav-logo-img">
+    <div class="nav-logo-text">
+      <span class="nav-logo-main">BIZHUB</span>
+      <span class="nav-logo-sub">TVETMARA LUMUT</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="#gerai">Gerai</a>
+    <a class="nav-link" href="#kepimpinan">Kepimpinan</a>
+    <a class="nav-link" href="login.html">Admin</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="orb orb1" aria-hidden="true"></div>
+  <div class="orb orb2" aria-hidden="true"></div>
+  <div class="hero-l">
+    <div class="h-eyebrow">
+      <div class="h-eyebrow-bar"></div>
+      <span>Bizhub · TVETMARA LUMUT · 2026</span>
+    </div>
+    <h1 class="hero-h">
+      TVETMARA<br/>
+      <i>LUMUT</i><br/>
+    </h1>
+    <p class="hero-p">Platform penghubung antara gerai usahawan pelajar TVETMARA LUMUT dengan pelanggan.</p>
+    <div class="hero-btns">
+      <a href="#gerai" class="btn-a">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Terokai Gerai
+      </a>
+      <a href="#kepimpinan" class="btn-b">Lihat Kepimpinan</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="stat-block">
+      <div class="stat-n" id="heroCount">—</div>
+      <div class="stat-info">
+        <div class="stat-lbl">Gerai Aktif</div>
+        <div class="stat-sub">Pelbagai kategori produk & perkhidmatan</div>
+      </div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-n">100%</div>
+      <div class="stat-info">
+        <div class="stat-lbl">Dikendalikan Pelajar</div>
+        <div class="stat-sub">Sepenuhnya hasil usaha pelajar TVETMARA LUMUT</div>
+      </div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-n">4.9</div>
+      <div class="stat-info">
+        <div class="stat-lbl">Indeks Kepuasan</div>
+        <div class="stat-sub">Berdasarkan maklum balas pelanggan</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-num" aria-hidden="true">MMXXV</div>
+  <div class="hero-scroll-pill">
+    <div class="scroll-bar"><div class="scroll-ticker"></div></div>
+    <span>Skrol</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track" id="mqTrack">
+    <span class="mq-item">Usahawan BizHub <span class="mq-sep"></span></span>
+    <span class="mq-item">TVETMARA LUMUT <span class="mq-sep"></span></span>
+    <span class="mq-item">Sokong Usahawan Pelajar <span class="mq-sep"></span></span>
+    <span class="mq-item">Produk Tempatan Berkualiti <span class="mq-sep"></span></span>
+    <span class="mq-item">Usahawan BizHub <span class="mq-sep"></span></span>
+    <span class="mq-item">TVETMARA LUMUT <span class="mq-sep"></span></span>
+    <span class="mq-item">Sokong Usahawan Pelajar <span class="mq-sep"></span></span>
+    <span class="mq-item">Produk Tempatan Berkualiti <span class="mq-sep"></span></span>
+  </div>
+</div>
+
+<!-- GERAI SECTION -->
+<section class="sec sec-dark" id="gerai">
+  <div class="gerai-hdr rv">
+    <div>
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span>Gerai Bizhub</span></div>
+      <h2 class="sec-h">Gerai <i>Pelajar</i></h2>
+      <p class="sec-body">Klik mana-mana gerai untuk melihat profil penuh, gambar produk, senarai ahli kumpulan, dan maklumat hubungan.</p>
+    </div>
+  </div>
+  <div class="gerai-grid" id="geraiGrid">
+    <div class="loading-state" style="grid-column:1/-1;">
+      <div class="loading-spinner"></div>
+      <div class="loading-txt">Memuatkan gerai...</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- KEPIMPINAN -->
+<section class="sec-lead" id="kepimpinan" style="position:relative;">
+  <div class="sec-ghost" aria-hidden="true">Kepimpinan</div>
+  <div class="lead-layout">
+    <div class="rv">
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span>Kepimpinan</span></div>
+      <h2 class="sec-h" style="font-size:clamp(2rem,3.5vw,3.2rem);">Ahli<br/><i>Jawatan</i><br/>Kuasa</h2>
+      <p class="sec-body" style="margin-top:18px;">Pentadbir dan tenaga pengajar yang memimpin program dengan dedikasi.<br/><br/><span style="font-size:.68rem;color:rgba(245,242,238,.1);">Klik kad untuk profil penuh.</span></p>
+    </div>
+    <div class="teacher-grid rv">
+      <div class="t-card prim d1" onclick="openTeacher(0)">
+        <div class="t-pos">Pengerusi</div>
+        <div class="t-photo"><div class="t-photo-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div>
+        <div class="t-name">En. Ahmad Fadzil<br/>bin Rashid</div>
+        <div class="t-view">Lihat Profil <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+      <div class="t-card d2" onclick="openTeacher(1)">
+        <div class="t-pos">Timbalan Pengerusi</div>
+        <div class="t-photo"><div class="t-photo-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div>
+        <div class="t-name">Pn. Siti Nurhaliza<br/>bt. Zainudin</div>
+        <div class="t-view">Lihat Profil <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+      <div class="t-card d3" onclick="openTeacher(2)">
+        <div class="t-pos">Setiausaha</div>
+        <div class="t-photo"><div class="t-photo-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div>
+        <div class="t-name">En. Mohd Hafiz<br/>bin Ismail</div>
+        <div class="t-view">Lihat Profil <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+      <div class="t-card d4" onclick="openTeacher(3)">
+        <div class="t-pos">Bendahari</div>
+        <div class="t-photo"><div class="t-photo-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div>
+        <div class="t-name">Pn. Rozita<br/>bt. Kamaruddin</div>
+        <div class="t-view">Lihat Profil <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+      <div class="t-card d5" onclick="openTeacher(4)">
+        <div class="t-pos">Ahli Jawatan Kuasa</div>
+        <div class="t-photo"><div class="t-photo-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div>
+        <div class="t-name">Cik Nurul Ain<br/>bt. Hamdan</div>
+        <div class="t-view">Lihat Profil <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="ft-brand">Usahawan <span>BizHub</span> · TVETMARA LUMUT</div>
+    <div class="ft-links"><a href="#gerai">Gerai</a><a href="#kepimpinan">Kepimpinan</a></div>
+    <div class="ft-copy">© 2026 Usahawan BizHub · TVETMARA LUMUT</div>
+  </div>
+</footer>
+
+<!-- TEACHER MODAL -->
+<div class="ov" id="teacherOv" onclick="closeTEv(event)">
+  <div class="t-modal">
+    <button class="x-btn" onclick="closeT()">✕</button>
+    <div class="t-modal-left" id="tLeft"></div>
+    <div class="t-modal-right">
+      <div class="t-modal-pos-r" id="tPos"></div>
+      <div class="t-modal-name" id="tName"></div>
+      <div class="t-modal-rule"></div>
+      <p class="t-modal-bio" id="tBio"></p>
+    </div>
+  </div>
+</div>
+
+<!-- GERAI MODAL -->
+<div class="ov" id="geraiOv" onclick="closeGEv(event)">
+  <div class="gm-modal">
+    <button class="x-btn" onclick="closeG()">✕</button>
+    <div class="gm-img-top" id="gmImgTop"></div>
+    <div class="gm-body">
+      <div class="gm-name" id="gmName"></div>
+      <div class="gm-desc" id="gmDesc"></div>
+      <div class="gm-sec-lbl">Gambar Produk</div>
+      <div class="prod-gallery" id="gmGallery"></div>
+      <div class="gm-sec-lbl">Ahli Kumpulan</div>
+      <div class="mb-list-d" id="gmMembers"></div>
+      <a class="gm-tel-btn" id="gmTel" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.19 15a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span id="gmTelTxt"></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     FIREBASE SDK
+     Ganti nilai di bawah dengan config Firebase kau
+     ====================================================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ══════════════════════════════════════════════
+// ⚠️  GANTI BAHAGIAN INI DENGAN CONFIG KAMU ⚠️
+// ══════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyBDmBh-vjg6EtYMPAdJMjIZlzleCiVBNPs",
+  authDomain:        "bizhub-e56a4.firebaseapp.com",
+  projectId:         "bizhub-e56a4",
+  storageBucket:     "bizhub-e56a4.firebasestorage.app",
+  messagingSenderId: "1042454362217",
+  appId:             "1:1042454362217:web:5d98f197ec1d795b76caf8"
+};
+// ══════════════════════════════════════════════
+
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
+
+window._db = db;
+
+// Listen realtime — auto update bila admin tambah/edit/padam
+const q = query(collection(db, "shops"), orderBy("createdAt", "asc"));
+onSnapshot(q, (snap) => {
+  const shops = [];
+  snap.forEach(d => shops.push({ id: d.id, ...d.data() }));
+  window._SHOPS = shops;
+  renderGrid(shops);
+
+  // Update marquee dengan nama gerai terkini
+  const names = shops.map(s => s.name);
+  updateMarquee(names);
+}, (err) => {
+  console.error("Firestore error:", err);
+  document.getElementById('geraiGrid').innerHTML =
+    `<div class="loading-state" style="grid-column:1/-1;">
+       <div style="font-size:.7rem;color:rgba(192,57,43,.7);letter-spacing:.08em;">
+         Gagal memuatkan data. Semak Firebase config.
+       </div>
+     </div>`;
+});
+
+function updateMarquee(names) {
+  if (!names.length) return;
+  const track = document.getElementById('mqTrack');
+  const items = [...names, ...names].map(n =>
+    `<span class="mq-item">${n} <span class="mq-sep"></span></span>`
+  ).join('');
+  track.innerHTML = items;
+}
+
+function renderGrid(shops) {
+  document.getElementById('heroCount').textContent = shops.length;
+  const g = document.getElementById('geraiGrid');
+
+  if (!shops.length) {
+    g.innerHTML = `<div class="loading-state" style="grid-column:1/-1;">
+      <div style="font-size:.78rem;color:var(--dim);letter-spacing:.06em;">Tiada gerai buat masa ini.</div>
+    </div>`;
+    return;
+  }
+
+  g.innerHTML = shops.map((d, i) => `
+    <div class="g-card rv d${(i % 3) + 1}" onclick="openGerai('${d.id}')">
+      <div class="g-idx">— 0${i + 1}</div>
+      <div class="g-img-wrap">
+        ${d.img
+          ? `<img src="${d.img}" alt="${d.name}"/><div class="g-img-fade"></div>`
+          : `<div class="g-img-ph"><div class="g-img-ph-line"></div><div class="g-img-ph-cat">${d.cat}</div><div class="g-img-ph-line"></div></div>`}
+        <div class="g-badge">${d.cat}</div>
+      </div>
+      <div class="g-body">
+        <div class="g-name">${d.name}</div>
+        <div class="g-desc">${d.desc || '—'}</div>
+        <div class="g-foot">
+          <a class="g-tel" href="${d.href}" onclick="event.stopPropagation()">
+            <div class="live"></div>${d.tel}
+          </a>
+          <div class="g-arr">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.querySelectorAll('.g-card.rv').forEach(el => io.observe(el));
+  document.querySelectorAll('.g-card,.g-tel').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+  });
+}
+</script>
+
+<script>
+/* CURSOR */
+const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cD.style.left=mx+'px';cD.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cR.style.left=rx+'px';cR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+const TEACHERS=[
+  {pos:'Pengerusi',name:'En. Ahmad Fadzil bin Rashid',photo:'',bio:'Bertanggungjawab memimpin dan mengurus keseluruhan program Usahawan BizHub TVETMARA LUMUT. Berpengalaman lebih 15 tahun dalam bidang keusahawanan dan pendidikan teknikal.'},
+  {pos:'Timbalan Pengerusi',name:'Pn. Siti Nurhaliza bt. Zainudin',photo:'',bio:'Membantu pengerusi dalam merancang dan melaksanakan program keusahawanan pelajar. Pakar dalam pembangunan kurikulum keusahawanan.'},
+  {pos:'Setiausaha',name:'En. Mohd Hafiz bin Ismail',photo:'',bio:'Menguruskan hal ehwal pentadbiran program termasuk pendaftaran gerai, penyelarasan aktiviti harian, dan dokumentasi rasmi.'},
+  {pos:'Bendahari',name:'Pn. Rozita bt. Kamaruddin',photo:'',bio:'Bertanggungjawab menguruskan kewangan program, pemantauan aliran tunai gerai pelajar, serta memastikan rekod kewangan diselenggara dengan telus.'},
+  {pos:'Ahli Jawatan Kuasa',name:'Cik Nurul Ain bt. Hamdan',photo:'',bio:'Membantu pelaksanaan aktiviti program, hubungan pelajar, dan memastikan setiap gerai mendapat sokongan serta bimbingan yang diperlukan.'},
+];
+
+function openTeacher(i){
+  const t=TEACHERS[i];
+  document.getElementById('tPos').textContent=t.pos;
+  document.getElementById('tName').textContent=t.name;
+  document.getElementById('tBio').textContent=t.bio;
+  document.getElementById('tLeft').innerHTML=t.photo
+    ?`<img src="${t.photo}" alt="${t.name}"/>`
+    :`<div class="t-modal-ph"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="t-modal-ph-lbl">${t.pos}</div></div>`;
+  document.getElementById('teacherOv').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeT(){document.getElementById('teacherOv').classList.remove('open');document.body.style.overflow='';}
+function closeTEv(e){if(e.target.id==='teacherOv')closeT();}
+
+function openGerai(id){
+  const shops = window._SHOPS || [];
+  const d = shops.find(x => x.id === id);
+  if(!d) return;
+
+  document.getElementById('gmImgTop').innerHTML=d.img
+    ?`<img src="${d.img}" alt="${d.name}"/><div class="gm-cat">${d.cat}</div>`
+    :`<div class="gm-img-ph-big"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,.15)" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="gm-cat">${d.cat}</div>`;
+
+  document.getElementById('gmName').textContent=d.name;
+  document.getElementById('gmDesc').textContent=d.desc||'—';
+
+  const gallery=document.getElementById('gmGallery');
+  if(d.products&&d.products.length){
+    gallery.innerHTML=d.products.map(p=>`
+      <div class="prod-item">
+        ${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:`<div class="prod-item-ph"><svg class="prod-item-ph-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(200,184,154,1)" stroke-width=".9"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><div class="prod-item-ph-lbl">${p.name}</div></div>`}
+        <div class="prod-item-name">${p.name}</div>
+      </div>`).join('');
+  } else {
+    gallery.innerHTML='<div style="grid-column:1/-1;padding:32px;text-align:center;font-size:.68rem;color:var(--dim);">Tiada gambar produk.</div>';
+  }
+
+  document.getElementById('gmMembers').innerHTML=d.members?.length
+    ?d.members.map(m=>`
+      <div class="mb-row-d">
+        <div class="mb-avatar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(245,242,238,.4)" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="mb-name-d">${m.n||m.name}</div>
+        <div class="mb-role-d">${m.r||m.role||'Ahli'}</div>
+      </div>`).join('')
+    :'<div class="mb-row-d"><div class="mb-name-d" style="color:var(--dim);font-size:.74rem;">Tiada ahli didaftarkan.</div></div>';
+
+  document.getElementById('gmTel').href=d.href;
+  document.getElementById('gmTelTxt').textContent=`Hubungi — ${d.tel}`;
+  document.getElementById('geraiOv').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeG(){document.getElementById('geraiOv').classList.remove('open');document.body.style.overflow='';}
+function closeGEv(e){if(e.target.id==='geraiOv')closeG();}
+
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('on',scrollY>50));
+
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.07});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

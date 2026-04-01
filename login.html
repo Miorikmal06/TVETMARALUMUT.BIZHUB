@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Log Masuk — Usahawan BizHub TVETMARA LUMUT</title>
+<link rel="icon" type="image/png" href="logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;1,6..96,300;1,6..96,400&family=DM+Sans:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet"/>
+</head>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d0d0d;--bg2:#111;--bg3:#161616;--surface:#1a1a1a;
+  --line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);
+  --pt:#c8b89a;--pt2:#e8d9c0;--white:#f5f2ee;
+  --dim:rgba(245,242,238,.18);--dim2:rgba(245,242,238,.08);--dim3:rgba(245,242,238,.04);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--white);overflow:hidden;-webkit-font-smoothing:antialiased;cursor:none;}
+#cDot,#cRing{position:fixed;pointer-events:none;border-radius:50%;z-index:9999;transform:translate(-50%,-50%);}
+#cDot{width:5px;height:5px;background:var(--pt);transition:width .18s,height .18s;}
+#cRing{width:38px;height:38px;border:1px solid rgba(200,184,154,.28);transition:width .22s,height .22s;}
+body.hov #cDot{width:8px;height:8px;}
+body.hov #cRing{width:54px;height:54px;border-color:rgba(200,184,154,.15);}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;background-repeat:repeat;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)'/%3E%3C/svg%3E");}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);}
+.orb1{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;background:rgba(200,184,154,.04);top:-200px;right:-200px;}
+.orb2{position:fixed;width:400px;height:400px;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;background:rgba(200,60,43,.03);bottom:-150px;left:-150px;}
+.wrap{position:relative;z-index:2;height:100vh;display:grid;grid-template-columns:1fr 1fr;}
+.left{display:flex;flex-direction:column;justify-content:space-between;padding:52px 60px;border-right:1px solid var(--line);opacity:0;animation:rLeft .9s .1s var(--ease) forwards;}
+.left-brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;}
+.lb-main{font-family:'Bodoni Moda',serif;font-size:1.1rem;font-weight:300;letter-spacing:.04em;color:var(--white);}
+.lb-sub{font-size:.56rem;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);}
+.left-mid{display:flex;flex-direction:column;gap:32px;}
+.left-tag{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.left-tag-bar{width:32px;height:1px;background:var(--pt);}
+.left-tag span{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--pt);}
+.left-h{font-family:'Bodoni Moda',serif;font-weight:300;font-size:clamp(3rem,5vw,5rem);line-height:.88;letter-spacing:-.03em;}
+.left-h i{font-style:italic;color:var(--pt);}
+.left-p{font-size:.76rem;font-weight:300;color:var(--dim);line-height:2;letter-spacing:.02em;max-width:320px;}
+.feat-list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);}
+.feat-item{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:.66rem;font-weight:300;color:var(--dim);letter-spacing:.04em;}
+.feat-dot{width:4px;height:4px;border-radius:50%;background:var(--pt);flex-shrink:0;}
+.left-foot{font-size:.54rem;letter-spacing:.12em;color:rgba(245,242,238,.1);}
+.right{display:flex;align-items:center;justify-content:center;padding:52px 60px;opacity:0;animation:rRight .9s .2s var(--ease) forwards;}
+.form-box{width:100%;max-width:380px;}
+.form-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:36px;}
+.form-eyebrow-line{width:24px;height:1px;background:var(--pt);}
+.form-eyebrow span{font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--pt);}
+.form-title{font-family:'Bodoni Moda',serif;font-size:2.2rem;font-weight:300;letter-spacing:-.02em;margin-bottom:6px;}
+.form-sub{font-size:.7rem;font-weight:300;color:var(--dim);letter-spacing:.04em;margin-bottom:48px;}
+.fld{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.fld label{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);font-weight:400;}
+.fld-wrap{position:relative;}
+.fld input{font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:300;color:var(--white);border:1px solid var(--line);background:var(--dim3);padding:14px 18px;outline:none;width:100%;transition:border-color .25s,background .25s;letter-spacing:.03em;}
+.fld input:focus{border-color:rgba(200,184,154,.4);background:rgba(200,184,154,.03);}
+.fld input::placeholder{color:rgba(245,242,238,.12);}
+.eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:none;color:var(--dim);display:flex;align-items:center;padding:4px;transition:color .2s;}
+.eye-btn:hover{color:var(--pt);}
+.err-msg{font-size:.62rem;color:#e74c3c;letter-spacing:.06em;display:none;align-items:center;gap:8px;margin-top:6px;}
+.err-msg.show{display:flex;}
+.login-btn{width:100%;background:var(--pt);color:var(--bg);font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:18px;border:none;cursor:none;margin-top:28px;transition:background .25s,transform .2s,box-shadow .3s;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px;}
+.login-btn:hover{background:var(--pt2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,184,154,.15);}
+.login-btn::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transition:left .5s;}
+.login-btn:hover::after{left:140%;}
+.login-btn.loading{pointer-events:none;background:rgba(200,184,154,.6);}
+.spin{display:none;width:14px;height:14px;border:1.5px solid var(--bg);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.back-link{display:block;text-align:center;margin-top:24px;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s;}
+.back-link:hover{color:var(--pt);}
+.deco-num{position:fixed;left:0;bottom:20px;z-index:1;pointer-events:none;font-family:'Bodoni Moda',serif;font-style:italic;font-size:9rem;font-weight:300;color:rgba(255,255,255,.015);line-height:1;user-select:none;}
+@keyframes rLeft{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+@keyframes rRight{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes shake{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;}.left{display:none;}.right{height:100vh;}}
+</style>
+</head>
+<body>
+<div id="cDot"></div><div id="cRing"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="orb1" aria-hidden="true"></div>
+<div class="orb2" aria-hidden="true"></div>
+<div class="deco-num" aria-hidden="true">I</div>
+<div class="wrap">
+  <div class="left">
+    <a class="left-brand" href="index.html">
+      <span class="lb-main">BizHub</span>
+      <span class="lb-sub">TVETMARA LUMUT</span>
+    </a>
+    <div class="left-mid">
+      <div>
+        <div class="left-tag"><div class="left-tag-bar"></div><span>Panel Admin</span></div>
+        <h1 class="left-h">Kawalan<br/><i>Gerai</i><br/>Usahawan</h1>
+      </div>
+      <p class="left-p">Portal pengurusan eksklusif untuk pentadbir. Tambah, urus, dan padam gerai pelajar dengan mudah.</p>
+      <div class="feat-list">
+        <div class="feat-item"><div class="feat-dot"></div>Tambah gerai baru dengan maklumat lengkap</div>
+        <div class="feat-item"><div class="feat-dot"></div>Urus senarai ahli kumpulan setiap gerai</div>
+        <div class="feat-item"><div class="feat-dot"></div>Padam gerai yang telah tamat kontrak</div>
+        <div class="feat-item"><div class="feat-dot"></div>Semua perubahan dikemas kini serta-merta di semua device</div>
+      </div>
+    </div>
+    <div class="left-foot">© 2026 Usahawan BizHub · TVETMARA LUMUT</div>
+  </div>
+  <div class="right">
+    <div class="form-box">
+      <div class="form-eyebrow"><div class="form-eyebrow-line"></div><span>Log Masuk Admin</span></div>
+      <h2 class="form-title">Selamat Datang</h2>
+      <p class="form-sub">Masukkan kelayakan anda untuk mengakses panel pentadbiran.</p>
+      <div class="fld">
+        <label>Nama Pengguna</label>
+        <div class="fld-wrap">
+          <input type="text" id="uInput" placeholder="Nama pengguna" autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Kata Laluan</label>
+        <div class="fld-wrap">
+          <input type="password" id="pInput" placeholder="Kata laluan" autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+          <button class="eye-btn" onclick="toggleEye()" tabindex="-1">
+            <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="err-msg" id="errMsg">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="errTxt">Nama pengguna atau kata laluan salah.</span>
+        </div>
+      </div>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">
+        <span class="spin" id="spin"></span>
+        <span id="btnTxt">Log Masuk</span>
+      </button>
+      <a class="back-link" href="index.html">← Kembali ke BizHub</a>
+    </div>
+  </div>
+</div>
+<script>
+/* CURSOR */
+const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cD.style.left=mx+'px';cD.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cR.style.left=rx+'px';cR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,input').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+function _d(s){return atob(s);}
+const _u=[
+  {u:_d('YWRtaW4x'),p:_d('MTIz')},
+  {u:_d('YWRtaW4y'),p:_d('MTIz')},
+  {u:_d('YWRtaW4z'),p:_d('MTIz')},
+  {u:_d('YWRtaW40'),p:_d('MTIz')}
+];
+
+function toggleEye(){
+  const inp=document.getElementById('pInput'),icon=document.getElementById('eyeIcon');
+  if(inp.type==='password'){
+    inp.type='text';
+    icon.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type='password';
+    icon.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+
+function doLogin(){
+  const u=document.getElementById('uInput').value.trim();
+  const p=document.getElementById('pInput').value;
+  const err=document.getElementById('errMsg');
+  const btn=document.getElementById('loginBtn');
+  const spin=document.getElementById('spin');
+  const txt=document.getElementById('btnTxt');
+  err.classList.remove('show');
+  if(!u||!p){document.getElementById('errTxt').textContent='Sila isi semua medan.';err.classList.add('show');return;}
+  btn.classList.add('loading');spin.style.display='inline-block';txt.textContent='Mengesahkan...';
+  setTimeout(()=>{
+    const ok=_u.some(x=>x.u===u&&x.p===p);
+    if(ok){
+      sessionStorage.setItem('bh_admin','1');
+      sessionStorage.setItem('bh_user',u);
+      txt.textContent='Berjaya! Mengalihkan...';
+      setTimeout(()=>{window.location.href='admin.html';},600);
+    } else {
+      btn.classList.remove('loading');spin.style.display='none';txt.textContent='Log Masuk';
+      document.getElementById('errTxt').textContent='Nama pengguna atau kata laluan salah.';
+      err.classList.add('show');
+      const pi=document.getElementById('pInput');pi.style.animation='none';pi.offsetHeight;pi.style.animation='shake .4s ease';
+    }
+  },900);
+}
+</script>
+</body>
+</html>
